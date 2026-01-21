@@ -1,0 +1,117 @@
+[gd_scene format=3 uid="uid://bclyko3buiv5v"]
+
+[ext_resource type="PackedScene" uid="uid://ckpmbxrh27uqv" path="res://TriangleStab.blend" id="1_2h4vo"]
+[ext_resource type="Shader" uid="uid://c7syfq0xkhy1v" path="res://AlphaErode.gdshader" id="2_cb68r"]
+[ext_resource type="Texture2D" uid="uid://cm0xg18yt8mxn" path="res://Noise2.tres" id="3_dryhj"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cjiok"]
+render_priority = 0
+shader = ExtResource("2_cb68r")
+shader_parameter/tex = ExtResource("3_dryhj")
+shader_parameter/prog = 0.3
+shader_parameter/modulate = Color(1, 0, 0, 1)
+shader_parameter/color_mult = 1.0
+shader_parameter/rightBound = 0.0
+shader_parameter/emit = 1.0
+shader_parameter/uv1_scale = Vector3(0.25, 2, 1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+
+[sub_resource type="Animation" id="Animation_2h4vo"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TriangleStab/Cube:material_override:shader_parameter/prog")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.3]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TriangleStab:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("TriangleStab:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_cb68r"]
+resource_name = "Stab"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TriangleStab/Cube:material_override:shader_parameter/prog")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(2, 1),
+"update": 0,
+"values": [0.2, 1.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TriangleStab:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.5, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(-4, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("TriangleStab:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.5, 1),
+"update": 0,
+"values": [Vector3(1, 1, 1), Vector3(2, 2, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_dryhj"]
+_data = {
+&"RESET": SubResource("Animation_2h4vo"),
+&"Stab": SubResource("Animation_cb68r")
+}
+
+[node name="Underpainting3" type="Node3D" unique_id=1271224753]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 4, 0)
+
+[node name="TriangleStab" parent="." unique_id=1762205367 instance=ExtResource("1_2h4vo")]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+
+[node name="Cube" parent="TriangleStab" index="0" unique_id=434482386]
+material_override = SubResource("ShaderMaterial_cjiok")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1778378496]
+libraries/ = SubResource("AnimationLibrary_dryhj")
+autoplay = &"Stab"
+
+[editable path="TriangleStab"]

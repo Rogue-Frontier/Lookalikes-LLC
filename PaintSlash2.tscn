@@ -1,0 +1,119 @@
+[gd_scene format=3 uid="uid://cltlvupbw3r06"]
+
+[ext_resource type="PackedScene" uid="uid://dhogf155u8nwq" path="res://PaintSlash.glb" id="1_15tr2"]
+[ext_resource type="Shader" uid="uid://c7syfq0xkhy1v" path="res://AlphaErode.gdshader" id="2_lxtjc"]
+[ext_resource type="Texture2D" uid="uid://dfh7rbdx3vlnb" path="res://SomeNoise.tres" id="3_uf83o"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_15tr2"]
+render_priority = -1
+shader = ExtResource("2_lxtjc")
+shader_parameter/tex = ExtResource("3_uf83o")
+shader_parameter/prog = 0.2
+shader_parameter/modulate = Color(0.6, 0, 0, 1)
+shader_parameter/color_mult = 1.0
+shader_parameter/rightBound = 0.0
+shader_parameter/emit = 3.0
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lxtjc"]
+render_priority = 0
+next_pass = SubResource("ShaderMaterial_15tr2")
+shader = ExtResource("2_lxtjc")
+shader_parameter/tex = ExtResource("3_uf83o")
+shader_parameter/prog = 0.5
+shader_parameter/modulate = Color(0.85882354, 0, 0, 1)
+shader_parameter/color_mult = 0.0
+shader_parameter/rightBound = 0.0
+shader_parameter/emit = 3.0
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+
+[sub_resource type="Animation" id="Animation_kf10o"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PaintSlash/Cube:material_override:next_pass:shader_parameter/prog")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.2]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PaintSlash/Cube:material_override:shader_parameter/prog")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.5]
+}
+
+[sub_resource type="Animation" id="Animation_mg5og"]
+resource_name = "Slash"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PaintSlash/Cube:material_override:next_pass:shader_parameter/prog")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(2, 1),
+"update": 0,
+"values": [0.2, 1.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PaintSlash/Cube:material_override:shader_parameter/prog")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(2, 1),
+"update": 0,
+"values": [0.5, 1.0]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_gyhdg"]
+_data = {
+&"RESET": SubResource("Animation_kf10o"),
+&"Slash": SubResource("Animation_mg5og")
+}
+
+[node name="PaintSlash" type="Node3D" unique_id=954358079]
+transform = Transform3D(1.5, 0, 0, 0, -0.70710677, -1.0606601, 0, -0.70710677, 1.0606601, 0, 4, 0)
+
+[node name="PaintSlash" parent="." unique_id=1992994666 instance=ExtResource("1_15tr2")]
+
+[node name="Cube" parent="PaintSlash" index="0" unique_id=1823598395]
+material_override = SubResource("ShaderMaterial_lxtjc")
+
+[node name="AP" type="AnimationPlayer" parent="." unique_id=1466759546]
+libraries/ = SubResource("AnimationLibrary_gyhdg")
+autoplay = &"Slash"
+
+[editable path="PaintSlash"]

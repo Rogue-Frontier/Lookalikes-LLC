@@ -1,0 +1,181 @@
+[gd_scene format=3 uid="uid://dc440e22hxga3"]
+
+[ext_resource type="PackedScene" uid="uid://e66d310w58ba" path="res://MemorialProcession_Slash1.glb" id="1_1hagr"]
+[ext_resource type="Material" uid="uid://be8o3sbwp7wpq" path="res://WildHuntSlash.tres" id="2_s5me3"]
+
+[sub_resource type="Animation" id="Animation_7bi3r"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Slash/Cube:material_override:next_pass:shader_parameter/alpha_mod")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Slash/Cube:material_override:next_pass:next_pass:shader_parameter/prog")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-0.2]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Slash/Cube:material_override:shader_parameter/alpha_mod")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Slash/Cube:material_override:shader_parameter/glow")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Slash/Cube:material_override:next_pass:next_pass:next_pass:shader_parameter/prog")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-0.5]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Slash/Cube:material_override:shader_parameter/emit")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [5.0]
+}
+
+[sub_resource type="Animation" id="Animation_2ndhu"]
+resource_name = "Slash"
+length = 0.4
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Slash/Cube:material_override:next_pass:shader_parameter/alpha_mod")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.0, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Slash/Cube:material_override:next_pass:next_pass:shader_parameter/prog")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.1, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.5, -0.5]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Slash/Cube:material_override:shader_parameter/alpha_mod")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.1, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.0, 0.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Slash/Cube:material_override:shader_parameter/glow")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Slash/Cube:material_override:next_pass:next_pass:next_pass:shader_parameter/prog")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.1, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.5, -0.5]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Slash/Cube:material_override:shader_parameter/emit")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0.1, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [5.0, 1.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fijae"]
+_data = {
+&"RESET": SubResource("Animation_7bi3r"),
+&"Slash": SubResource("Animation_2ndhu")
+}
+
+[node name="Node3D" type="Node3D" unique_id=954358079]
+
+[node name="Slash" parent="." unique_id=2009209866 instance=ExtResource("1_1hagr")]
+transform = Transform3D(0.997564, 0, -0.06975647, 0, -1, 0, 0.06975646, 0, 0.9975641, 0, 0, 4)
+
+[node name="Cube" parent="Slash" index="0" unique_id=1402480849]
+material_override = ExtResource("2_s5me3")
+blend_shapes/frame_0000 = 1.0
+
+[node name="AnimationPlayer" parent="Slash" index="1" unique_id=1729434785]
+autoplay = &"KeyAction"
+speed_scale = 20.0
+
+[node name="Colors" type="AnimationPlayer" parent="." unique_id=181121748]
+libraries/ = SubResource("AnimationLibrary_fijae")
+autoplay = &"Slash"
+
+[editable path="Slash"]

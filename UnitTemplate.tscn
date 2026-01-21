@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://ba4h2i5rvaaj1"]
+
+[ext_resource type="Script" uid="uid://ct41jmrfk8u6c" path="res://unit.gd" id="1_v7qiw"]
+[ext_resource type="Texture2D" uid="uid://br3wbovudytfp" path="res://Dummy.png" id="2_7knp7"]
+[ext_resource type="PackedScene" uid="uid://cnxknrfuxctnx" path="res://health_ring.tscn" id="3_3q1t3"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_v7qiw"]
+viewport_path = NodePath("HealthRing/SubViewport")
+
+[node name="Unit" type="Node3D" unique_id=294482563 groups=["Unit"]]
+script = ExtResource("1_v7qiw")
+
+[node name="Slots" type="Node3D" parent="." unique_id=2063640181]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9, 0)
+
+[node name="Body" type="Sprite3D" parent="." unique_id=1107236870]
+centered = false
+offset = Vector2(-8, 0)
+pixel_size = 0.25
+texture_filter = 2
+texture = ExtResource("2_7knp7")
+
+[node name="HealthRing" parent="." unique_id=604520087 instance=ExtResource("3_3q1t3")]
+texture = SubResource("ViewportTexture_v7qiw")

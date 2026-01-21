@@ -1,0 +1,11 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://c2cpi5pttqqot"]
+
+[ext_resource type="Texture2D" uid="uid://b60xo0lfpcpwp" path="res://Copied/fx_t_noise_27.png" id="1_67rtx"]
+
+[resource]
+transparency = 1
+albedo_color = Color(1, 0.3137255, 0.72156864, 1)
+albedo_texture = ExtResource("1_67rtx")
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 0.0
+uv1_scale = Vector3(8, 6, 1)

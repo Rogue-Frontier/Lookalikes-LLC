@@ -1,0 +1,129 @@
+[gd_scene format=3 uid="uid://byx4dvgst2w6m"]
+
+[ext_resource type="Texture2D" uid="uid://bq0d7j3a7l5sa" path="res://SunsetGround.png" id="1_fgmd3"]
+[ext_resource type="Texture2D" uid="uid://b1s1val5q8d83" path="res://SunsetBack.png" id="2_w27tb"]
+[ext_resource type="Texture2D" uid="uid://br3wbovudytfp" path="res://Dummy.png" id="3_vdnc1"]
+[ext_resource type="Texture2D" uid="uid://dmd2dvumgd7x2" path="res://HealthBarOutline.png" id="4_5225q"]
+[ext_resource type="Texture2D" uid="uid://rn80tib2l6bk" path="res://SkillSlot.png" id="4_mqt84"]
+[ext_resource type="Script" uid="uid://ct41jmrfk8u6c" path="res://unit.gd" id="4_nmdaw"]
+[ext_resource type="Script" uid="uid://e66urs7m74wl" path="res://Drag.gd" id="4_oiiyi"]
+[ext_resource type="Shader" uid="uid://b14lc6gi3788h" path="res://HealthRing.gdshader" id="5_ekmbu"]
+[ext_resource type="Texture2D" uid="uid://fqrbklwg1uy" path="res://HealthBarFill.png" id="6_et613"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mqt84"]
+size = Vector3(500, 500, 1)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_ekmbu"]
+viewport_path = NodePath("Unit/HealthRing/SubViewport")
+
+[sub_resource type="Environment" id="Environment_ekmbu"]
+ambient_light_source = 2
+ambient_light_color = Color(1, 1, 1, 1)
+
+[sub_resource type="World3D" id="World3D_ekmbu"]
+environment = SubResource("Environment_ekmbu")
+
+[sub_resource type="Gradient" id="Gradient_ekmbu"]
+colors = PackedColorArray(0.24705882, 0, 0, 1, 1, 0.3019608, 0, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_et613"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_oiiyi"]
+width = 369
+height = 320
+noise = SubResource("FastNoiseLite_et613")
+color_ramp = SubResource("Gradient_ekmbu")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ekmbu"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("5_ekmbu")
+shader_parameter/albedo_texture = ExtResource("6_et613")
+shader_parameter/fill_texture = SubResource("NoiseTexture2D_oiiyi")
+shader_parameter/hp = 100.0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ekmbu"]
+size = Vector2(7.7, 6.667)
+
+[node name="Node3D" type="Node3D" unique_id=2119616681]
+
+[node name="Ground" type="Sprite3D" parent="." unique_id=1211484338]
+pixel_size = 1.0
+axis = 1
+texture_filter = 2
+render_priority = -1
+texture = ExtResource("1_fgmd3")
+
+[node name="Back" type="Sprite3D" parent="." unique_id=2106475250]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 0, -32)
+centered = false
+pixel_size = 1.0
+billboard = 1
+texture_filter = 2
+render_priority = -1
+texture = ExtResource("2_w27tb")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1672340086 groups=["Camera"]]
+transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 9, 15)
+
+[node name="Node2D" type="Control" parent="Camera3D" unique_id=1197766605]
+layout_mode = 3
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1152.0
+offset_bottom = -648.0
+
+[node name="Area3D" type="Area3D" parent="Camera3D" unique_id=266301090]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -39.773575)
+script = ExtResource("4_oiiyi")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Camera3D/Area3D" unique_id=1768724564]
+shape = SubResource("BoxShape3D_mqt84")
+
+[node name="Unit" type="Node3D" parent="." unique_id=601281727]
+script = ExtResource("4_nmdaw")
+
+[node name="Slot" type="Node3D" parent="Unit" unique_id=425550307]
+
+[node name="Sprite3D" type="Sprite3D" parent="Unit/Slot" unique_id=1205364738]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9, 0)
+pixel_size = 0.015625
+billboard = 1
+texture = ExtResource("4_mqt84")
+
+[node name="Body" type="Sprite3D" parent="Unit" unique_id=696895663]
+centered = false
+offset = Vector2(-8, 0)
+pixel_size = 0.25
+texture_filter = 2
+texture = ExtResource("3_vdnc1")
+
+[node name="HealthRing" type="Sprite3D" parent="Unit" unique_id=363124078]
+texture_filter = 2
+texture = SubResource("ViewportTexture_ekmbu")
+
+[node name="SubViewport" type="SubViewport" parent="Unit/HealthRing" unique_id=970587366]
+own_world_3d = true
+world_3d = SubResource("World3D_ekmbu")
+transparent_bg = true
+size = Vector2i(369, 360)
+
+[node name="Camera3D" type="Camera3D" parent="Unit/HealthRing/SubViewport" unique_id=1175043559]
+transform = Transform3D(1, 0, 0, 0, 0.9659258, 0.25881904, 0, -0.25881904, 0.9659258, 0, 2.4, 9)
+current = true
+fov = 45.0
+
+[node name="HealthRingOutline" type="Sprite3D" parent="Unit/HealthRing/SubViewport" unique_id=1450377647]
+pixel_size = 0.0208333
+axis = 1
+render_priority = 1
+texture = ExtResource("4_5225q")
+
+[node name="HealthRingFill" type="MeshInstance3D" parent="Unit/HealthRing/SubViewport" unique_id=1604731502]
+material_override = SubResource("ShaderMaterial_ekmbu")
+cast_shadow = 0
+mesh = SubResource("PlaneMesh_ekmbu")
+skeleton = NodePath("../../..")
+
+[connection signal="gui_input" from="Camera3D/Node2D" to="Camera3D/Node2D" method="_on_gui_input"]
+[connection signal="input_event" from="Camera3D/Area3D" to="Camera3D/Area3D" method="_on_input_event"]

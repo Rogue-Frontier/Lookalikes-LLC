@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://b6hge08yu4dtq"]
+
+[ext_resource type="Shader" uid="uid://b14lc6gi3788h" path="res://HealthRing.gdshader" id="1_hkne4"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_hkne4")

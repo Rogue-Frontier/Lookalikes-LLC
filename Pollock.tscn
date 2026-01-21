@@ -1,0 +1,54 @@
+[gd_scene format=3 uid="uid://oc3hot5x033v"]
+
+[ext_resource type="Script" uid="uid://ct41jmrfk8u6c" path="res://unit.gd" id="1_82n5k"]
+[ext_resource type="PackedScene" uid="uid://2cunjv1gh0k3" path="res://PaintSlash3.tscn" id="2_bv4en"]
+[ext_resource type="Texture2D" uid="uid://b2co0uxyipi57" path="res://Pollock.png" id="2_s1a5g"]
+[ext_resource type="Texture2D" uid="uid://bsk7q3khn2lsl" path="res://PollockBucket.png" id="4_lqoak"]
+[ext_resource type="Texture2D" uid="uid://cj3ji0l3b4c0w" path="res://PollockBrush.png" id="5_bv4en"]
+[ext_resource type="Script" uid="uid://bdcoan1rnv3bm" path="res://Pollock.gd" id="5_lqoak"]
+
+[sub_resource type="Animation" id="Animation_lqoak"]
+resource_name = "ActionPainting"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_bv4en"]
+_data = {
+&"ActionPainting": SubResource("Animation_lqoak")
+}
+
+[node name="Pollock" type="Node3D" unique_id=294482563 groups=["Unit"]]
+script = ExtResource("1_82n5k")
+
+[node name="Slots" type="Node3D" parent="." unique_id=2063640181]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
+
+[node name="PaintSlash" parent="." unique_id=954358079 instance=ExtResource("2_bv4en")]
+visible = false
+
+[node name="Body" type="Sprite3D" parent="." unique_id=1185927439]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+centered = false
+offset = Vector2(-16, 0)
+pixel_size = 0.0625
+texture_filter = 0
+render_priority = -1
+texture = ExtResource("2_s1a5g")
+
+[node name="Brush" type="Sprite3D" parent="Body" unique_id=48819854]
+transform = Transform3D(0.7071067, 0.7071067, 0, -0.7071067, 0.7071067, 0, 0, 0, 1, 0, 1, 0)
+pixel_size = 0.0625
+texture_filter = 0
+render_priority = 1
+texture = ExtResource("5_bv4en")
+
+[node name="Bucket" type="Sprite3D" parent="Body" unique_id=956414256]
+transform = Transform3D(0.99619454, -0.08715572, 0, 0.08715572, 0.99619454, 0, 0, 0, 1, 0.5, 1.8, 0)
+pixel_size = 0.0625
+texture_filter = 0
+render_priority = -1
+texture = ExtResource("4_lqoak")
+
+[node name="AP" type="AnimationPlayer" parent="." unique_id=1039565265]
+libraries/ = SubResource("AnimationLibrary_bv4en")
+
+[node name="Spec" type="Node" parent="." unique_id=112421243]
+script = ExtResource("5_lqoak")

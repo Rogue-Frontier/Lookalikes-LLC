@@ -1,0 +1,74 @@
+[gd_scene format=3 uid="uid://byx4dvgst2w6m"]
+
+[ext_resource type="Script" uid="uid://bn3vkbqow13np" path="res://Battle.gd" id="1_ekmbu"]
+[ext_resource type="Texture2D" uid="uid://bq0d7j3a7l5sa" path="res://SunsetGround.png" id="1_fgmd3"]
+[ext_resource type="Texture2D" uid="uid://b1s1val5q8d83" path="res://SunsetBack.png" id="2_w27tb"]
+[ext_resource type="Script" uid="uid://ncodw204spmk" path="res://XBillboard.gd" id="3_oiiyi"]
+[ext_resource type="Script" uid="uid://e66urs7m74wl" path="res://Drag.gd" id="4_oiiyi"]
+[ext_resource type="PackedScene" uid="uid://ba4h2i5rvaaj1" path="res://UnitTemplate.tscn" id="5_oiiyi"]
+[ext_resource type="PackedScene" uid="uid://oc3hot5x033v" path="res://Pollock.tscn" id="6_et613"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mqt84"]
+size = Vector3(500, 500, 1)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_et613"]
+viewport_path = NodePath("RightUnit/HealthRing/SubViewport")
+
+[node name="Node3D" type="Node3D" unique_id=2119616681]
+script = ExtResource("1_ekmbu")
+
+[node name="Ground" type="Sprite3D" parent="." unique_id=1211484338]
+pixel_size = 1.0
+axis = 1
+texture_filter = 2
+render_priority = -100
+texture = ExtResource("1_fgmd3")
+
+[node name="Back" type="Sprite3D" parent="." unique_id=2106475250]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -32)
+centered = false
+offset = Vector2(-32, 0)
+pixel_size = 1.0
+texture_filter = 2
+render_priority = -100
+texture = ExtResource("2_w27tb")
+script = ExtResource("3_oiiyi")
+
+[node name="Camera" type="Camera3D" parent="." unique_id=1207038993 groups=["Camera"]]
+transform = Transform3D(1, 0, 0, 0, 0.93969256, 0.3420201, 0, -0.3420201, 0.93969256, 0, 12, 15)
+projection = 1
+current = true
+size = 36.0
+
+[node name="Area3D" type="Area3D" parent="Camera" unique_id=2090265852]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -39.773575)
+script = ExtResource("4_oiiyi")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Camera/Area3D" unique_id=1403538102]
+shape = SubResource("BoxShape3D_mqt84")
+
+[node name="LeftUnit" parent="." unique_id=294482563 instance=ExtResource("6_et613")]
+
+[node name="RightUnit" parent="." unique_id=995962661 instance=ExtResource("5_oiiyi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 0)
+
+[node name="HealthRing" parent="RightUnit" index="2" unique_id=604520087]
+texture = SubResource("ViewportTexture_et613")
+
+[node name="Hidden" type="Node3D" parent="." unique_id=560255395]
+visible = false
+
+[node name="Cam" type="Camera3D" parent="Hidden" unique_id=1672340086]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9, 15)
+
+[node name="Area3D" type="Area3D" parent="Hidden/Cam" unique_id=266301090]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -39.773575)
+script = ExtResource("4_oiiyi")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hidden/Cam/Area3D" unique_id=1768724564]
+shape = SubResource("BoxShape3D_mqt84")
+
+[connection signal="input_event" from="Camera/Area3D" to="Camera/Area3D" method="_on_input_event"]
+[connection signal="input_event" from="Hidden/Cam/Area3D" to="Hidden/Cam/Area3D" method="_on_input_event"]
+
+[editable path="RightUnit"]

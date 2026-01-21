@@ -1,0 +1,259 @@
+[gd_scene format=3 uid="uid://ght5rkueyypf"]
+
+[ext_resource type="PackedScene" uid="uid://ddtd4a6w0lo87" path="res://PaintSlash330.glb" id="1_vt41s"]
+[ext_resource type="Shader" uid="uid://cwyh8ar2ayrht" path="res://Erode2.gdshader" id="2_x5qhf"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_bc30x"]
+load_path = "res://.godot/imported/PaintBlobYellow.png-56b4ae2e9fbd53aecb559203b9811fbe.s3tc.ctex"
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_ebpke"]
+noise_type = 0
+frequency = 0.1
+fractal_lacunarity = 1.0
+fractal_gain = 0.0
+domain_warp_type = 1
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_bdfd2"]
+height = 256
+noise = SubResource("FastNoiseLite_ebpke")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3e2mi"]
+render_priority = 11
+shader = ExtResource("2_x5qhf")
+shader_parameter/tex = SubResource("NoiseTexture2D_bdfd2")
+shader_parameter/prog = 0.5
+shader_parameter/modulate = Color(1, 1, 1, 1)
+shader_parameter/albedo_tex = SubResource("CompressedTexture2D_bc30x")
+shader_parameter/color_mult = 1.0
+shader_parameter/fadeBound = 0.4
+shader_parameter/fadeBound2 = 0.4
+shader_parameter/emit = 1.0
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/alpha_scale = Vector3(0.5, 1, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_0c1lq"]
+noise_type = 0
+frequency = 0.1
+fractal_lacunarity = 1.0
+fractal_gain = 0.0
+domain_warp_type = 1
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_7j4f7"]
+height = 256
+noise = SubResource("FastNoiseLite_0c1lq")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0bwx8"]
+render_priority = 10
+next_pass = SubResource("ShaderMaterial_3e2mi")
+shader = ExtResource("2_x5qhf")
+shader_parameter/tex = SubResource("NoiseTexture2D_7j4f7")
+shader_parameter/prog = 0.5
+shader_parameter/modulate = Color(1, 0, 0, 1)
+shader_parameter/color_mult = 1.0
+shader_parameter/fadeBound = 0.4
+shader_parameter/fadeBound2 = 0.4
+shader_parameter/emit = 1.0
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/alpha_scale = Vector3(0.5, 1, 1)
+
+[sub_resource type="Animation" id="Animation_kf10o"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PaintSlash330/Cube:material_override:shader_parameter/fadeBound")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.4]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PaintSlash330/Cube:material_override:next_pass:shader_parameter/fadeBound")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.4]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("PaintSlash330/Cube:material_override:next_pass:next_pass:shader_parameter/fadeBound")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.4]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("PaintSlash330/Cube:material_override:shader_parameter/prog")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.5]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("PaintSlash330/Cube:material_override:next_pass:shader_parameter/prog")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.5]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("PaintSlash330/Cube:material_override:shader_parameter/fadeBound2")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.4]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("PaintSlash330/Cube:material_override:next_pass:shader_parameter/fadeBound2")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.4]
+}
+
+[sub_resource type="Animation" id="Animation_mg5og"]
+resource_name = "Slash"
+length = 0.5
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PaintSlash330/Cube:material_override:shader_parameter/fadeBound")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.4, -0.5]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("PaintSlash330/Cube:material_override:next_pass:shader_parameter/fadeBound")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.4, -0.5]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = false
+tracks/3/path = NodePath("PaintSlash330/Cube:material_override:shader_parameter/prog")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.099999994, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.3, 2.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = false
+tracks/4/path = NodePath("PaintSlash330/Cube:material_override:next_pass:shader_parameter/prog")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.099999994, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.3, 2.0]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("PaintSlash330/Cube:material_override:shader_parameter/fadeBound2")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0.1, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.4, -0.1]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("PaintSlash330/Cube:material_override:next_pass:shader_parameter/fadeBound2")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0.1, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.4, -0.1]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_gyhdg"]
+_data = {
+&"RESET": SubResource("Animation_kf10o"),
+&"Slash": SubResource("Animation_mg5og")
+}
+
+[node name="PaintSlash" type="Node3D" unique_id=954358079]
+transform = Transform3D(1, 1.06770166e-07, -1.06770145e-07, 0, -0.7071067, -0.7071068, 1.509958e-07, -0.7071068, 0.7071067, 0, 4, 0)
+
+[node name="PaintSlash330" parent="." unique_id=1290593215 instance=ExtResource("1_vt41s")]
+transform = Transform3D(0.25881907, 3.9080593e-08, -1.4488888, 1.509958e-07, -1, -9.473118e-16, 0.9659258, 1.4585075e-07, 0.3882286, 0, 0, 0)
+
+[node name="Cube" parent="PaintSlash330" index="0" unique_id=893738999]
+transform = Transform3D(1, 0, 8.742278e-08, 0, -1, 0, -8.742278e-08, 0, 1, 0, 0, 6)
+material_override = SubResource("ShaderMaterial_0bwx8")
+cast_shadow = 0
+
+[node name="AP" type="AnimationPlayer" parent="." unique_id=1466759546]
+libraries/ = SubResource("AnimationLibrary_gyhdg")
+autoplay = &"Slash"
+
+[editable path="PaintSlash330"]

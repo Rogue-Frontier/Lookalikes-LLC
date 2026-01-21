@@ -1,0 +1,89 @@
+[gd_scene format=3 uid="uid://b0cjdlfx70mbs"]
+
+[ext_resource type="Shader" uid="uid://df50edwdg3w4a" path="res://VioletEnergy.gdshader" id="1_o8eiw"]
+
+[sub_resource type="Gradient" id="Gradient_oft1f"]
+offsets = PackedFloat32Array(0, 0.999, 1)
+colors = PackedColorArray(0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_mafhk"]
+gradient = SubResource("Gradient_oft1f")
+width = 128
+height = 128
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0, 0.5)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gfdxs"]
+render_priority = 0
+shader = ExtResource("1_o8eiw")
+shader_parameter/tex = SubResource("GradientTexture2D_mafhk")
+shader_parameter/prog = 1.2
+shader_parameter/modulate = Color(1, 0.6745098, 0, 1)
+shader_parameter/speed = 5.0
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+
+[sub_resource type="QuadMesh" id="QuadMesh_o8eiw"]
+size = Vector2(6, 6)
+
+[sub_resource type="Animation" id="Animation_o8eiw"]
+resource_name = "Flash"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Flash:material_override:shader_parameter/prog")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(0.5, 1),
+"update": 0,
+"values": [0.0, 1.2]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.3),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_oft1f"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Flash:material_override:shader_parameter/prog")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.2]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_mafhk"]
+_data = {
+&"Flash": SubResource("Animation_o8eiw"),
+&"RESET": SubResource("Animation_oft1f")
+}
+
+[node name="ClashFlash" type="Node3D" unique_id=1984827060]
+
+[node name="Flash" type="MeshInstance3D" parent="." unique_id=1536298407]
+material_override = SubResource("ShaderMaterial_gfdxs")
+mesh = SubResource("QuadMesh_o8eiw")
+
+[node name="AP" type="AnimationPlayer" parent="." unique_id=1474812169]
+libraries/ = SubResource("AnimationLibrary_mafhk")
+autoplay = &"Flash"

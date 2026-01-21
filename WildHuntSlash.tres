@@ -1,0 +1,55 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://be8o3sbwp7wpq"]
+
+[ext_resource type="Shader" uid="uid://df50edwdg3w4a" path="res://VioletEnergy.gdshader" id="1_026wh"]
+[ext_resource type="Shader" uid="uid://dqa22x3q5dh8s" path="res://WildHuntSlash.gdshader" id="2_k43p8"]
+[ext_resource type="Texture2D" uid="uid://blfnxhhui1ntn" path="res://Copied/fx_t_noise_06.png" id="3_jjn4u"]
+[ext_resource type="Texture2D" uid="uid://dfh7rbdx3vlnb" path="res://SomeNoise.tres" id="3_k43p8"]
+[ext_resource type="Texture2D" uid="uid://b60xo0lfpcpwp" path="res://Copied/fx_t_noise_27.png" id="4_caa2d"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_n7s0d"]
+render_priority = 3
+shader = ExtResource("1_026wh")
+shader_parameter/tex = ExtResource("3_k43p8")
+shader_parameter/prog = -0.5
+shader_parameter/modulate = Color(0.5254902, 0.24313726, 1, 1)
+shader_parameter/speed = 2.5
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+
+[sub_resource type="Gradient" id="Gradient_n7s0d"]
+offsets = PackedFloat32Array(0, 0.23626374, 1)
+colors = PackedColorArray(0, 0, 0, 0, 0.2509804, 0, 0, 1, 1, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_7bi3r"]
+gradient = SubResource("Gradient_n7s0d")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nsehy"]
+render_priority = 2
+next_pass = SubResource("ShaderMaterial_n7s0d")
+shader = ExtResource("2_k43p8")
+shader_parameter/texture_albedo = ExtResource("3_jjn4u")
+shader_parameter/gradient = SubResource("GradientTexture1D_7bi3r")
+shader_parameter/alpha_mod = 0.0
+shader_parameter/glow = 0.0
+shader_parameter/uv1_scale = Vector3(16, 8, 0)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/emit = 5.0
+
+[sub_resource type="Gradient" id="Gradient_we7lj"]
+offsets = PackedFloat32Array(0, 0.1368421, 0.6789474, 1)
+colors = PackedColorArray(0, 0, 0, 0, 0.25490198, 0.09411765, 0.19607843, 1, 1, 0.37254903, 0.7647059, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_rfxsk"]
+gradient = SubResource("Gradient_we7lj")
+
+[resource]
+render_priority = 1
+next_pass = SubResource("ShaderMaterial_nsehy")
+shader = ExtResource("2_k43p8")
+shader_parameter/texture_albedo = ExtResource("4_caa2d")
+shader_parameter/gradient = SubResource("GradientTexture1D_rfxsk")
+shader_parameter/alpha_mod = 0.0
+shader_parameter/glow = 1.0
+shader_parameter/uv1_scale = Vector3(10, 3, 1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/emit = 1.0

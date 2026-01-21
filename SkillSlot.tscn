@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://dda33wy8vdrwf"]
+
+[ext_resource type="Script" uid="uid://1mic5oqrj25b" path="res://SkillSlot.gd" id="1_127ww"]
+[ext_resource type="Texture2D" uid="uid://rn80tib2l6bk" path="res://SkillSlot.png" id="1_y8dsh"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_oiiyi"]
+size = Vector3(2.5, 2.5, 1)
+
+[node name="Slot" type="Node3D" unique_id=1085278015 groups=["SkillSlot"]]
+script = ExtResource("1_127ww")
+
+[node name="Area3D" type="Area3D" parent="." unique_id=1661894497]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=38913042]
+shape = SubResource("BoxShape3D_oiiyi")
+
+[node name="Sprite3D" type="Sprite3D" parent="." unique_id=1533903359]
+pixel_size = 0.025
+texture = ExtResource("1_y8dsh")
+
+[connection signal="input_event" from="Area3D" to="." method="_on_area_3d_input_event"]

@@ -1,0 +1,71 @@
+[gd_scene format=3 uid="uid://cnxknrfuxctnx"]
+
+[ext_resource type="Script" uid="uid://pctxgmdorrml" path="res://health_ring.gd" id="1_xo1ob"]
+[ext_resource type="Texture2D" uid="uid://dmd2dvumgd7x2" path="res://HealthBarOutline.png" id="2_yx8iy"]
+[ext_resource type="Shader" uid="uid://b14lc6gi3788h" path="res://HealthRing.gdshader" id="3_h8pxa"]
+[ext_resource type="Texture2D" uid="uid://fqrbklwg1uy" path="res://HealthBarFill.png" id="4_yivuk"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_ekmbu"]
+viewport_path = NodePath("Unit/HealthRing/SubViewport")
+
+[sub_resource type="Environment" id="Environment_ekmbu"]
+ambient_light_source = 2
+ambient_light_color = Color(1, 1, 1, 1)
+
+[sub_resource type="World3D" id="World3D_ekmbu"]
+environment = SubResource("Environment_ekmbu")
+
+[sub_resource type="Gradient" id="Gradient_ekmbu"]
+colors = PackedColorArray(0.24705882, 0, 0, 1, 1, 0.3019608, 0, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_et613"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_oiiyi"]
+width = 369
+height = 320
+noise = SubResource("FastNoiseLite_et613")
+color_ramp = SubResource("Gradient_ekmbu")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ekmbu"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("3_h8pxa")
+shader_parameter/albedo_texture = ExtResource("4_yivuk")
+shader_parameter/fill_texture = SubResource("NoiseTexture2D_oiiyi")
+shader_parameter/hp = 100.0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ekmbu"]
+size = Vector2(7.7, 6.667)
+
+[node name="HealthRing" type="Sprite3D" unique_id=604520087]
+texture_filter = 2
+texture = SubResource("ViewportTexture_ekmbu")
+script = ExtResource("1_xo1ob")
+hp = 1.0
+
+[node name="SubViewport" type="SubViewport" parent="." unique_id=622528127]
+own_world_3d = true
+world_3d = SubResource("World3D_ekmbu")
+transparent_bg = true
+size = Vector2i(450, 360)
+
+[node name="Camera3D" type="Camera3D" parent="SubViewport" unique_id=638116428]
+transform = Transform3D(1, 0, 0, 0, 0.9659258, 0.25881904, 0, -0.25881904, 0.9659258, 0, 2.4, 9)
+fov = 45.0
+
+[node name="HealthRingOutline" type="Sprite3D" parent="SubViewport" unique_id=1683086603]
+pixel_size = 0.0208333
+axis = 1
+render_priority = 1
+texture = ExtResource("2_yx8iy")
+
+[node name="HealthRingFill" type="MeshInstance3D" parent="SubViewport" unique_id=2094104229]
+material_override = SubResource("ShaderMaterial_ekmbu")
+cast_shadow = 0
+mesh = SubResource("PlaneMesh_ekmbu")
+skeleton = NodePath("../../..")
+
+[node name="Camera3D2" type="Camera3D" parent="SubViewport" unique_id=1430610423]
+transform = Transform3D(1, 0, 0, 0, 0.9659258, 0.25881904, 0, -0.25881904, 0.9659258, 0, 2, 7.5)
+current = true
+fov = 45.0

@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://bki6slp1psyc8"]
+
+[ext_resource type="Texture2D" uid="uid://rn80tib2l6bk" path="res://SkillSlot.png" id="1_2mjsf"]
+[ext_resource type="SystemFont" uid="uid://b4mil2oqkr8e8" path="res://MonospaceFont.tres" id="2_u0kdv"]
+
+[node name="CurrentDie" type="Node3D" unique_id=1162808645]
+
+[node name="Back" type="Sprite3D" parent="." unique_id=1017720794]
+pixel_size = 0.015625
+render_priority = -1
+texture = ExtResource("1_2mjsf")
+
+[node name="Range" type="Label3D" parent="." unique_id=1106294875]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.2, 0)
+pixel_size = 0.0313
+text = "1 ~ 16"
+font = ExtResource("2_u0kdv")
+font_size = 16
+
+[node name="Roll" type="Label3D" parent="." unique_id=672259045]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+pixel_size = 0.0313
+text = "?"
+font = ExtResource("2_u0kdv")
