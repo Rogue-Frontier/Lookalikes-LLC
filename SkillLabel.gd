@@ -29,7 +29,12 @@ func showDie(die):
 	if mul > 1:
 		skillRange = str(mul) + "(" + skillRange + ")"
 func loseClash():
-	$CurrentDie.visible = false
+	var t := get_tree().create_tween()
+	t.tween_property($CurrentDie/Back, "modulate", Color.RED, 0.1)
+func winClash():
+	var t := get_tree().create_tween()
+	t.tween_property($CurrentDie/Back, "modulate", Color.CYAN, 0.1)
+	
 func showDice(dice:Array):
 	for c in $NextDice.get_children():
 		$NextDice.remove_child(c)
@@ -38,6 +43,7 @@ func showDice(dice:Array):
 		return
 	visible = true
 	$CurrentDie.visible = true
+	$CurrentDie/Back.modulate = Color.DIM_GRAY
 	showDie(dice[0])
 	var x := 0
 	for d in dice.slice(1):

@@ -3,9 +3,18 @@
 [ext_resource type="Texture2D" uid="uid://rn80tib2l6bk" path="res://SkillSlot.png" id="1_2mjsf"]
 [ext_resource type="SystemFont" uid="uid://b4mil2oqkr8e8" path="res://MonospaceFont.tres" id="2_u0kdv"]
 
+[sub_resource type="Animation" id="Animation_2mjsf"]
+resource_name = "Lose"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_u0kdv"]
+_data = {
+&"Lose": SubResource("Animation_2mjsf")
+}
+
 [node name="CurrentDie" type="Node3D" unique_id=1162808645]
 
 [node name="Back" type="Sprite3D" parent="." unique_id=1017720794]
+modulate = Color(0.5, 0.5, 0.5, 1)
 pixel_size = 0.015625
 render_priority = -1
 texture = ExtResource("1_2mjsf")
@@ -22,3 +31,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
 pixel_size = 0.0313
 text = "?"
 font = ExtResource("2_u0kdv")
+
+[node name="AP" type="AnimationPlayer" parent="." unique_id=999774561]
+libraries/ = SubResource("AnimationLibrary_u0kdv")

@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://bgdwydyp5cm0y"]
+
+[ext_resource type="Script" uid="uid://d1awrr4xhrtkk" path="res://EmotionBar.gd" id="1_v3wad"]
+
+[node name="EmotionBar" type="Node3D" unique_id=1281078288]
+script = ExtResource("1_v3wad")
+
+[node name="Bar" type="Node3D" parent="." unique_id=1535884816]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)

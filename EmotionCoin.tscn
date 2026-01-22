@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://c4o6t3lngvq3i"]
+
+[ext_resource type="Texture2D" uid="uid://rn80tib2l6bk" path="res://SkillSlot.png" id="1_42k8a"]
+
+[node name="Sprite3D" type="Sprite3D" unique_id=2065789361]
+pixel_size = 0.0039063
+texture = ExtResource("1_42k8a")

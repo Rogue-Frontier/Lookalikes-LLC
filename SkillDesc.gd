@@ -1,12 +1,16 @@
 class_name SkillDesc
-extends Node
 class Die:
 	var base:int
 	var rng:int
+	
+	var top:int:
+		get:
+			return base + rng
 	var reuse:bool
 	var disableReuse:bool
 	var atk:Callable
 	var loseClash:Callable
+	var winClash:Callable
 	func roll(chance:float) -> int:
 		var r := base
 		var unit := int(sign(rng))
@@ -26,26 +30,27 @@ class Die:
 class SkillCam:
 	var pos := Vector3(0, 0, 0)
 	var fov := 18
+	var cam_tween := false
+	var tree:SceneTree
 	func fovIn(dist:float, dur:float):
 		var t:Tween
-		t = Tween.new()
+		
+		t = tree.create_tween()
 		t.set_trans(Tween.TRANS_QUAD)
 		t.set_ease(Tween.EASE_IN)
 		t.tween_property(self, "fov", dist, dur)
+		t.play()
 		await t.finished
 	func fovOut(dist:float, dur:float):
-		var t:= Tween.new()
+		var t:Tween= tree.create_tween()
 		t.set_trans(Tween.TRANS_QUAD)
 		t.set_ease(Tween.EASE_OUT)
 		t.tween_property(self, "fov", dist, dur)
+		t.play()
 		await t.finished
 		await check_pause()
 	func wait(t:float):
-		var timer = Timer.new()
-		timer.wait_time = t
-		timer.time_left = t
-		timer.start()
-		await timer.timeout
+		await tree.create_timer(t).timeout
 		await check_pause()
 	var paused:bool
 	signal unpaused
@@ -73,12 +78,12 @@ class SkillCam:
 		return Vector3(center.x, y, 15)
 	static func auto_fov(fov:int, dist:int):
 		return fov + 8 + dist * 1.5
-static func mk(skillName:String, diceLeft:Array[Die]):
+static func mk(skillName:String, diceLeft:Array[Die]) -> SkillDesc:
 	var sd = SkillDesc.new()
 	sd.skillName = skillName
 	sd.diceLeft = diceLeft
 	return sd
-var cam:SkillCam
+var cam:= SkillCam.new()
 var skillName:String
 var diceLeft : Array[Die]
 var hasDice:bool:
@@ -91,6 +96,12 @@ var target:Unit
 const Unit = preload("res://unit.gd")
 signal onRoll(r:int)
 signal onClashLose
+signal onClashWin
+func winClash():
+	onClashWin.emit()
+	var d := currentDie
+	if d.winClash:
+		d.winClash.call()
 func loseClash():
 	var d := currentDie
 	diceLeft.remove_at(0)
@@ -106,6 +117,7 @@ func useCurrent(user:Unit, chance:float):
 	if d.reuse and not d.disableReuse:
 		return
 	diceLeft.remove_at(0)
+
 func rollCurrent(chance:float) -> int:
 	var r:= currentDie.roll(chance)
 	onRoll.emit(r)
@@ -113,7 +125,6 @@ func rollCurrent(chance:float) -> int:
 func attack(user:Unit, chance:float):
 	var r = rollCurrent(chance)
 	await currentDie.attack(user, self, r)
-	
 func start_battle():
 	pass	
 func start_turn():

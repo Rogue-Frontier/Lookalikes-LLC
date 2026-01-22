@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://bsk7q3khn2lsl" path="res://PollockBucket.png" id="4_lqoak"]
 [ext_resource type="Texture2D" uid="uid://cj3ji0l3b4c0w" path="res://PollockBrush.png" id="5_bv4en"]
 [ext_resource type="Script" uid="uid://bdcoan1rnv3bm" path="res://Pollock.gd" id="5_lqoak"]
+[ext_resource type="PackedScene" uid="uid://bgdwydyp5cm0y" path="res://EmotionBar.tscn" id="7_5e0xw"]
 
 [sub_resource type="Animation" id="Animation_lqoak"]
 resource_name = "ActionPainting"
@@ -52,3 +53,5 @@ libraries/ = SubResource("AnimationLibrary_bv4en")
 
 [node name="Spec" type="Node" parent="." unique_id=112421243]
 script = ExtResource("5_lqoak")
+
+[node name="EmotionBar" parent="." unique_id=1281078288 instance=ExtResource("7_5e0xw")]
