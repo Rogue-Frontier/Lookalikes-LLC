@@ -30,11 +30,11 @@ class Die:
 class SkillCam:
 	var pos := Vector3(0, 0, 0)
 	var fov := 18
-	var cam_tween := false
+	var pos_tween := false
+	var fov_tween := false
 	var tree:SceneTree
 	func fovIn(dist:float, dur:float):
 		var t:Tween
-		
 		t = tree.create_tween()
 		t.set_trans(Tween.TRANS_QUAD)
 		t.set_ease(Tween.EASE_IN)
@@ -49,6 +49,13 @@ class SkillCam:
 		t.play()
 		await t.finished
 		await check_pause()
+	func posTo(dest:Vector3, dur:float):
+		var t:Tween= tree.create_tween()
+		t.tween_property(self, "pos", dest, dur)
+		t.play()
+		await t.finished
+		await check_pause()
+		pass
 	func wait(t:float):
 		await tree.create_timer(t).timeout
 		await check_pause()
@@ -73,10 +80,10 @@ class SkillCam:
 		for u in uu:
 			dist += (u.global_position - center).length() / uu.size()
 		return dist
-	static func auto_pov(center:Vector3):
+	static func auto_pov(center:Vector3) -> Vector3:
 		var y := 10 + center.z * sin(deg_to_rad(-15))
 		return Vector3(center.x, y, 15)
-	static func auto_fov(fov:int, dist:int):
+	static func auto_fov(fov:int, dist:int) -> int:
 		return fov + 8 + dist * 1.5
 static func mk(skillName:String, diceLeft:Array[Die]) -> SkillDesc:
 	var sd = SkillDesc.new()
@@ -117,7 +124,6 @@ func useCurrent(user:Unit, chance:float):
 	if d.reuse and not d.disableReuse:
 		return
 	diceLeft.remove_at(0)
-
 func rollCurrent(chance:float) -> int:
 	var r:= currentDie.roll(chance)
 	onRoll.emit(r)

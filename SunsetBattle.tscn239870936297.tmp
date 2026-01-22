@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://e66urs7m74wl" path="res://Drag.gd" id="4_oiiyi"]
 [ext_resource type="Texture2D" uid="uid://8a68ekp0bq64" path="res://Dark.png" id="5_mqt84"]
 [ext_resource type="PackedScene" uid="uid://oc3hot5x033v" path="res://Pollock.tscn" id="6_et613"]
+[ext_resource type="PackedScene" uid="uid://b0cjdlfx70mbs" path="res://ClashFlash.tscn" id="8_oiiyi"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_mqt84"]
 size = Vector3(500, 500, 1)
@@ -63,6 +64,8 @@ transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0, 0)
 [node name="RightUnit2" parent="." unique_id=1735511470 instance=ExtResource("6_et613")]
 transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0, -12)
 
+[node name="ClashFlash" parent="." unique_id=1984827060 instance=ExtResource("8_oiiyi")]
+
 [node name="Hidden" type="Node3D" parent="." unique_id=560255395]
 visible = false
 
@@ -78,3 +81,5 @@ shape = SubResource("BoxShape3D_mqt84")
 
 [connection signal="input_event" from="Camera/Area3D" to="Camera/Area3D" method="_on_input_event"]
 [connection signal="input_event" from="Hidden/Cam/Area3D" to="Hidden/Cam/Area3D" method="_on_input_event"]
+
+[editable path="ClashFlash"]

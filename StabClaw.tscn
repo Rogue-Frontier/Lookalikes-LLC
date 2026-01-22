@@ -1,0 +1,90 @@
+[gd_scene format=3 uid="uid://darw3qovusabd"]
+
+[ext_resource type="Shader" uid="uid://c7syfq0xkhy1v" path="res://AlphaErode.gdshader" id="1_t6nhl"]
+[ext_resource type="Texture2D" uid="uid://bliwr63wyf5fi" path="res://StabClaw.png" id="2_0q5dd"]
+
+[sub_resource type="Gradient" id="Gradient_mxqnx"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_bq5jh"]
+gradient = SubResource("Gradient_mxqnx")
+fill = 1
+fill_from = Vector2(1, 0.5)
+fill_to = Vector2(0, 0.5)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0etde"]
+render_priority = 0
+shader = ExtResource("1_t6nhl")
+shader_parameter/tex = ExtResource("2_0q5dd")
+shader_parameter/alphaTex = SubResource("GradientTexture2D_bq5jh")
+shader_parameter/prog = 0.01
+shader_parameter/modulate = Color(1, 0.7764706, 0.4117647, 1)
+shader_parameter/color_mult = 1.0
+shader_parameter/rightBound = 0.18
+shader_parameter/emit = 1.0
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_drps2"]
+orientation = 2
+
+[sub_resource type="Animation" id="Animation_t6nhl"]
+resource_name = "Flash"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:material_override:shader_parameter/prog")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(4, 1),
+"update": 0,
+"values": [0.1, 1.0]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_0q5dd"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:material_override:shader_parameter/prog")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.01]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_mxqnx"]
+_data = {
+&"Flash": SubResource("Animation_t6nhl"),
+&"RESET": SubResource("Animation_0q5dd")
+}
+
+[node name="StabClaw" type="Node3D" unique_id=1893224724]
+
+[node name="Sprite" type="MeshInstance3D" parent="." unique_id=1083340378]
+material_override = SubResource("ShaderMaterial_0etde")
+mesh = SubResource("PlaneMesh_drps2")
+
+[node name="AP" type="AnimationPlayer" parent="." unique_id=1221986190]
+libraries/ = SubResource("AnimationLibrary_mxqnx")
+autoplay = &"Flash"

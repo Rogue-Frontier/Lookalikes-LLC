@@ -1,0 +1,103 @@
+[gd_scene format=3 uid="uid://cpfdu3xle1cjn"]
+
+[ext_resource type="Shader" uid="uid://c7syfq0xkhy1v" path="res://AlphaErode.gdshader" id="1_biwl0"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_i1v0j"]
+noise_type = 0
+frequency = 0.1
+fractal_lacunarity = 1.0
+fractal_gain = 0.0
+domain_warp_type = 1
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_biwl0"]
+width = 32
+height = 32
+noise = SubResource("FastNoiseLite_i1v0j")
+
+[sub_resource type="Gradient" id="Gradient_iojld"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ftld5"]
+gradient = SubResource("Gradient_iojld")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wwi0p"]
+render_priority = 0
+shader = ExtResource("1_biwl0")
+shader_parameter/tex = SubResource("GradientTexture2D_ftld5")
+shader_parameter/alphaTex = SubResource("NoiseTexture2D_biwl0")
+shader_parameter/prog = 0.05
+shader_parameter/modulate = Color(1, 0, 0, 1)
+shader_parameter/color_mult = 1.0
+shader_parameter/rightBound = 0.0
+shader_parameter/emit = 1.0
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ma8wn"]
+size = Vector2(3, 3)
+orientation = 2
+
+[sub_resource type="Animation" id="Animation_i1v0j"]
+resource_name = "Flash"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:material_override:shader_parameter/prog")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(2, 1),
+"update": 0,
+"values": [0.01, 1.0]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_biwl0"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:material_override:shader_parameter/prog")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.05]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_biwl0"]
+_data = {
+&"Flash": SubResource("Animation_i1v0j"),
+&"RESET": SubResource("Animation_biwl0")
+}
+
+[node name="PaintSplatter" type="Node3D" unique_id=905450449]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=248892526]
+material_override = SubResource("ShaderMaterial_wwi0p")
+mesh = SubResource("PlaneMesh_ma8wn")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1293844634]
+libraries/ = SubResource("AnimationLibrary_biwl0")
+autoplay = &"Flash"
