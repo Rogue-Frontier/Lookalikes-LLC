@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://1mic5oqrj25b" path="res://SkillSlot.gd" id="1_127ww"]
 [ext_resource type="Texture2D" uid="uid://rn80tib2l6bk" path="res://SkillSlot.png" id="1_y8dsh"]
+[ext_resource type="SystemFont" uid="uid://b4mil2oqkr8e8" path="res://MonospaceFont.tres" id="3_2ni08"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_oiiyi"]
 size = Vector3(2.5, 2.5, 1)
@@ -17,6 +18,19 @@ shape = SubResource("BoxShape3D_oiiyi")
 [node name="Sprite3D" type="Sprite3D" parent="." unique_id=1533903359]
 modulate = Color(0.5, 0.5, 0.5, 1)
 pixel_size = 0.025
+double_sided = false
 texture = ExtResource("1_y8dsh")
 
+[node name="Speed" type="Label3D" parent="." unique_id=1931213869]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+pixel_size = 0.0417
+render_priority = 1
+text = "24"
+font = ExtResource("3_2ni08")
+
+[node name="Skills" type="Node3D" parent="." unique_id=573852933]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+
 [connection signal="input_event" from="Area3D" to="." method="_on_area_3d_input_event"]
+[connection signal="mouse_entered" from="Area3D" to="." method="_on_area_3d_mouse_entered"]
+[connection signal="mouse_exited" from="Area3D" to="." method="_on_area_3d_mouse_exited"]

@@ -1,9 +1,7 @@
 @tool
 extends Sprite3D
-
 func _ready() -> void:
 	texture = $SubViewport.get_texture()
-
 @export var hp: float:
 	get:
 		return hp

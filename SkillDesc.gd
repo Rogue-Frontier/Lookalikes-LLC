@@ -2,12 +2,13 @@ class_name SkillDesc
 class Die:
 	var base:int
 	var rng:int
-	
 	var top:int:
 		get:
 			return base + rng
+	var desc:String
 	var reuse:bool
 	var disableReuse:bool
+	var def:bool
 	var atk:Callable
 	var loseClash:Callable
 	var winClash:Callable
@@ -21,10 +22,11 @@ class Die:
 	func attack(user, skill, roll):
 		if atk:
 			await atk.call(user, skill, roll)
-	static func mk(base:int, rng:int, atk) -> Die:
+	static func mk(base:int, rng:int, atk, desc:String = "") -> Die:
 		var d := Die.new()
 		d.base = base
 		d.rng = rng
+		d.desc = desc
 		d.atk = atk
 		return d
 class SkillCam:
@@ -49,13 +51,20 @@ class SkillCam:
 		t.play()
 		await t.finished
 		await check_pause()
+	func posOut(dest:Vector3, dur:float):
+		var t:Tween= tree.create_tween()
+		t.tween_property(self, "pos", dest, dur)
+		t.set_trans(Tween.TRANS_QUAD)
+		t.set_ease(Tween.EASE_OUT)
+		t.play()
+		await t.finished
+		await check_pause()
 	func posTo(dest:Vector3, dur:float):
 		var t:Tween= tree.create_tween()
 		t.tween_property(self, "pos", dest, dur)
 		t.play()
 		await t.finished
 		await check_pause()
-		pass
 	func wait(t:float):
 		await tree.create_timer(t).timeout
 		await check_pause()
@@ -69,7 +78,6 @@ class SkillCam:
 	func unpause():
 		paused = false
 		unpaused.emit()
-		pass
 	static func calc_center(uu) -> Vector3:
 		var center := Vector3(0,0,0)
 		for u in uu:
@@ -82,15 +90,17 @@ class SkillCam:
 		return dist
 	static func auto_pov(center:Vector3) -> Vector3:
 		var y := 10 + center.z * sin(deg_to_rad(-15))
-		return Vector3(center.x, y, 15)
+		return Vector3(center.x, y, 30)
 	static func auto_fov(fov:int, dist:int) -> int:
 		return fov + 8 + dist * 1.5
-static func mk(skillName:String, diceLeft:Array[Die]) -> SkillDesc:
+static func mk(skillName:String, staminaCost:int, diceLeft:Array[Die]) -> SkillDesc:
 	var sd = SkillDesc.new()
 	sd.skillName = skillName
+	sd.staminaCost = staminaCost
 	sd.diceLeft = diceLeft
 	return sd
 var cam:= SkillCam.new()
+var staminaCost:int
 var skillName:String
 var diceLeft : Array[Die]
 var hasDice:bool:

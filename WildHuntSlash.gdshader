@@ -2,7 +2,9 @@ shader_type spatial;
 render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_burley, specular_schlick_ggx;
 uniform sampler2D texture_albedo : source_color, filter_linear_mipmap, repeat_enable;
 uniform sampler2D gradient : source_color;
-uniform float alpha_mod = 1.0;
+uniform float alpha_mult = 1.0;
+uniform float alpha_add = 0.0;
+
 uniform float glow = 0.0;
 uniform vec3 uv1_scale;
 uniform vec3 uv1_offset;
@@ -21,5 +23,5 @@ void fragment() {
 	float br = gr.r;
 	EMISSION = gr.rgb;
 	EMISSION *= emit;
-	ALPHA = gr.a * alpha_mod;
+	ALPHA = clamp((gr.a + alpha_add) * alpha_mult, 0, 1.0);
 }

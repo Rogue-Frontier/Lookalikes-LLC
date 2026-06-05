@@ -29,9 +29,13 @@ func showDie(die):
 	if mul > 1:
 		skillRange = str(mul) + "(" + skillRange + ")"
 func loseClash():
+	if not is_inside_tree():
+		return
 	var t := get_tree().create_tween()
 	t.tween_property($CurrentDie/Back, "modulate", Color.RED, 0.1)
 func winClash():
+	if not is_inside_tree():
+		return
 	var t := get_tree().create_tween()
 	t.tween_property($CurrentDie/Back, "modulate", Color.CYAN, 0.1)
 	

@@ -25,7 +25,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
 [node name="PaintSlash" parent="." unique_id=954358079 instance=ExtResource("2_bv4en")]
 visible = false
 
-[node name="Body" type="Sprite3D" parent="." unique_id=1185927439]
+[node name="Body" type="Node3D" parent="." unique_id=429637402]
+
+[node name="Body2" type="Sprite3D" parent="Body" unique_id=1185927439]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 centered = false
 offset = Vector2(-16, 0)
@@ -34,14 +36,14 @@ texture_filter = 0
 render_priority = -1
 texture = ExtResource("2_s1a5g")
 
-[node name="Brush" type="Sprite3D" parent="Body" unique_id=48819854]
+[node name="Brush" type="Sprite3D" parent="Body/Body2" unique_id=48819854]
 transform = Transform3D(0.7071067, 0.7071067, 0, -0.7071067, 0.7071067, 0, 0, 0, 1, 0, 1, 0)
 pixel_size = 0.0625
 texture_filter = 0
 render_priority = 1
 texture = ExtResource("5_bv4en")
 
-[node name="Bucket" type="Sprite3D" parent="Body" unique_id=956414256]
+[node name="Bucket" type="Sprite3D" parent="Body/Body2" unique_id=956414256]
 transform = Transform3D(0.99619454, -0.08715572, 0, 0.08715572, 0.99619454, 0, 0, 0, 1, 0.5, 1.8, 0)
 pixel_size = 0.0625
 texture_filter = 0

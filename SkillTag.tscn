@@ -1,0 +1,55 @@
+[gd_scene format=3 uid="uid://dex22ccvk65ij"]
+
+[ext_resource type="Texture2D" uid="uid://dh6ao3fxqp7ts" path="res://SkillTag.png" id="1_4m171"]
+[ext_resource type="Script" uid="uid://bxrhv4f82w6s3" path="res://SkillTag.gd" id="1_ac6bx"]
+[ext_resource type="PackedScene" uid="uid://bnnn43j7u0fk2" path="res://SkillPanel.tscn" id="2_sqdb1"]
+[ext_resource type="SystemFont" uid="uid://b4mil2oqkr8e8" path="res://MonospaceFont.tres" id="2_xassi"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ac6bx"]
+size = Vector3(16, 2.5, 1)
+
+[node name="SkillTag" type="Node3D" unique_id=1304752578]
+script = ExtResource("1_ac6bx")
+
+[node name="SkillPanel" parent="." unique_id=1945199462 instance=ExtResource("2_sqdb1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, 0)
+visible = false
+
+[node name="Back" type="Sprite3D" parent="." unique_id=1733974561]
+centered = false
+offset = Vector2(-8, -8)
+pixel_size = 0.125
+texture_filter = 0
+render_priority = 5
+texture = ExtResource("1_4m171")
+
+[node name="Cost" type="Label3D" parent="." unique_id=232023559]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+pixel_size = 0.0313
+render_priority = 10
+modulate = Color(0, 0, 0, 1)
+outline_modulate = Color(1, 1, 1, 1)
+text = "10"
+font = ExtResource("2_xassi")
+
+[node name="Name" type="Label3D" parent="." unique_id=393047516]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, -0.1, 0)
+pixel_size = 0.0313
+render_priority = 10
+modulate = Color(0, 0, 0, 1)
+outline_modulate = Color(1, 1, 1, 1)
+text = "Underpainting"
+font = ExtResource("2_xassi")
+horizontal_alignment = 0
+
+[node name="Area3D" type="Area3D" parent="." unique_id=1549181009]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=1113002520]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, 0)
+shape = SubResource("BoxShape3D_ac6bx")
+
+[node name="AP" type="AnimationPlayer" parent="." unique_id=767835334]
+
+[connection signal="input_event" from="Area3D" to="." method="_on_area_3d_input_event"]
+[connection signal="mouse_entered" from="Area3D" to="." method="_on_area_3d_mouse_entered"]
+[connection signal="mouse_exited" from="Area3D" to="." method="_on_area_3d_mouse_exited"]

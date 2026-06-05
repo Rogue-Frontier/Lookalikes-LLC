@@ -1,6 +1,18 @@
 extends Node3D
 const Unit = preload("res://unit.gd")
 const SkillSlot = preload("res://SkillSlot.gd")
+const P := preload("res://Pollock.gd")
+var pages := [
+	P.Underpainting(),
+	P.ActionPainting()
+]
+@export
+var flip:bool:
+	set(b):
+		if b:
+			$Body.scale = Vector3(-1, 1, 1)
+		else:
+			$Body.scale = Vector3(1, 1, 1)
 func _ready() -> void:
 	add_child(preload("res://health_ring.tscn").instantiate())
 	add_child(preload("res://EmotionBar.tscn").instantiate())
@@ -13,7 +25,6 @@ func _process(delta: float) -> void:
 	global_rotation.x = get_tree().get_first_node_in_group("Camera").global_rotation.x
 	if(scale.x == -1):
 		global_rotation.x += PI
-
 func start_battle():
 	pass
 func start_turn():
@@ -36,15 +47,23 @@ func make_slots():
 	var count := 1
 	var w := 2.0
 	var offset = (count - 1) * w / 2
+	
+	for s in $Slots.get_children():
+		$Slots.remove_child(s)
 	for i in range(count):
 		var slot := preload("res://SkillSlot.tscn").instantiate()
 		slot.position.x = -offset + i * w
 		slot.name = "Slot" + str(i)
 		slot.user = self
+		slot.spd = 5
 		$Slots.add_child(slot)
 func move_to_target_side():
 	pass
 func approach(target:Unit, dist:int):
 	var t := get_tree().create_tween()
 	t.tween_property(self, "global_position", target.global_position + (self.global_position - target.global_position).normalized() * Vector3(dist, 0, 0), 0.1)
+	await t.finished
+func knockback(v:Vector3):
+	var t := get_tree().create_tween()
+	t.tween_property(self, "global_position", self.global_position + v , 0.1)
 	await t.finished

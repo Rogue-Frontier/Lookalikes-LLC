@@ -39,18 +39,25 @@ func makeClash(l, r):
 const Pollock = preload("res://Pollock.gd")
 func _ready() -> void:
 	get_tree().create_timer(0.1).timeout.connect(func():
-		for u:Unit in get_tree().get_nodes_in_group("Unit"):
-			u.make_slots()
 		start_turn()
 		makeClash($LeftUnit/Slots/Slot0, $RightUnit/Slots/Slot0)
 		$LeftUnit/Slots/Slot0.skillDesc = Pollock.Underpainting()
-		$RightUnit/Slots/Slot0.skillDesc = Pollock.Underpainting()
-		if false:
+		$RightUnit/Slots/Slot0.skillDesc = Pollock.ActionPainting()
+		if true:
 			makeClash($LeftUnit2/Slots/Slot0, $RightUnit2/Slots/Slot0)
-			$LeftUnit2/Slots/Slot0.skillDesc = Pollock.ActionPainting()
+			$LeftUnit2/Slots/Slot0.skillDesc = Pollock.Underpainting()
 			$RightUnit2/Slots/Slot0.skillDesc = Pollock.ActionPainting()
-		start_combat()
+		#start_combat()
 		)
+	$Control/Control.pressed.connect(func():
+		if busy_:
+			return
+		busy_ = true
+		await start_combat()
+		await start_turn()
+		busy_ = false
+		)	
+var busy_ := false
 var combat_autocam := false
 var combat_pov := Vector3(0, 0, 0)
 var combat_dist := 18
@@ -86,13 +93,41 @@ func _process(delta: float) -> void:
 			$Camera.size += (sz - $Camera.size) * delta
 		else:
 			$Camera.size = sz
-		if not c.cam or c.cam.pos_tween:
+		if not c.cam:
 			$Camera.global_position += (combat_pov - $Camera.global_position) * delta * 2.5
 			$Camera.global_rotation_degrees += (Vector3(-15,0,0) - $Camera.global_rotation_degrees) * delta * 2.5
-		else:
-			$Camera.global_position = combat_pov
+		elif c.cam and c.cam.pos_tween:
+			$Camera.global_position += (c.cam.pos - $Camera.global_position) * delta * 2.5
+			$Camera.global_rotation_degrees += (Vector3(-15,0,0) - $Camera.global_rotation_degrees) * delta * 2.5
+		elif c.cam:
+			$Camera.global_position = c.cam.pos
 func start_turn():
 	for u:Unit in get_tree().get_nodes_in_group("Unit"):
+		u.make_slots()
+	var slots := get_tree().get_nodes_in_group("SkillSlot")
+	for u:SkillSlot in slots:
+		for _u in slots:
+			_u.leftDown.connect(u.deselect)
+		u.rightDown.connect(u.deselect)
+		var sk := u.get_node("Skills")
+		u.leftDown.connect(func():
+			var i := 0
+			for p :SkillDesc in u.user.pages:
+				var tag := preload("res://SkillTag.tscn").instantiate()
+				tag.cost = p.staminaCost
+				tag.skillName = p.skillName
+				var desc := ""
+				for d in p.diceLeft:
+					desc += str(d.base) + " ~ " + str(d.top)
+					desc += " " + d.desc
+					desc += "\n" 
+				tag.skillDesc = desc
+				tag.position.y = 2 * i
+				sk.add_child(tag)
+				i += 1
+			)
+	for u:Unit in get_tree().get_nodes_in_group("Unit"):
+		u.visible = true
 		u.start_turn()
 func start_combat():
 	var slots := get_tree().get_nodes_in_group("SkillSlot")
@@ -120,8 +155,9 @@ func start_combat():
 			)
 		clash(c, s)
 	clashing = clashes
-	for c in clashes:
-		await c.done
+	while not clashes.is_empty():
+		await clashes[0].done
+	clashes = []
 class Clash:
 	var cam:SkillDesc.SkillCam
 	signal done
@@ -183,7 +219,7 @@ func clash(cl:Clash, s:SkillSlot):
 			if true:
 				#Clash approach
 				var sep := 6
-				var ti := 0.5
+				var ti := 0.3
 				_tw = tree.create_tween()
 				_tw.set_ease(Tween.EASE_OUT)
 				_tw.set_trans(Tween.TRANS_QUAD)
@@ -201,16 +237,16 @@ func clash(cl:Clash, s:SkillSlot):
 				var kbL := (lU.global_position - rU.global_position).normalized()
 				var lPush := 5.0
 				var rPush := 5.0
-				if lRoll < rRoll:
-					rPush = 0.5
-				if rRoll < lRoll:
-					lPush = 0.5
 				if lRoll > rRoll:
+					lPush = 0.5
 					lLa.winClash()
 					rLa.loseClash()
 				elif rRoll > lRoll:
+					rPush = 0.5
 					rLa.winClash()
 					lLa.loseClash()
+				else:
+					pass
 				_tw = tree.create_tween()
 				_tw.set_ease(Tween.EASE_OUT)
 				_tw.set_trans(Tween.TRANS_QUAD)
@@ -221,21 +257,23 @@ func clash(cl:Clash, s:SkillSlot):
 				_tw.tween_property(rU, "global_position", rU.global_position - kbL * rPush, 0.1)
 				await _tw.finished
 				await tree.create_timer(0.25).timeout
-				
 				if lRoll > rRoll:
 					lSk.cam.tree = get_tree()
 					cl.cam = lSk.cam
 					cl.cam.fov_tween = false
-					lSk.winClash()
-					rSk.loseClash()
+					await lSk.winClash()
+					await rSk.loseClash()
 					await lSk.useCurrent(lU, 0.5)
 				elif rRoll > lRoll:
 					rSk.cam.tree = get_tree()
 					cl.cam = rSk.cam
 					cl.cam.fov_tween = false
-					rSk.winClash()
-					lSk.loseClash()
+					await rSk.winClash()
+					await lSk.loseClash()
 					await rSk.useCurrent(rU, 0.5)
+				else:
+					
+					pass
 			clashing = lSk.hasDice and rSk.hasDice
 		while lSk.hasDice:
 			await lSk.useCurrent(lU, 0.5)

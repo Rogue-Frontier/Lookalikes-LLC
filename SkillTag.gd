@@ -1,23 +1,26 @@
 extends Node3D
-class_name SkillSlot
-const Unit = preload("res://unit.gd")
-const SkillDesc = preload("res://SkillDesc.gd")
-var pending:bool = true
-var speed:int
-var user:Unit
-var target:SkillSlot
-var skill:SkillPage
-var skillDesc:SkillDesc
-var clash:bool
-func _ready():
-	pass
-var spd:int:
-	set(s):
-		$Speed.text = str(s)
-func deselect():
-	var sk := $Skills
-	for ss in sk.get_children():
-		sk.remove_child(ss)
+var cost:int:
+	set(c):
+		$Cost.text = str(c)
+var skillName:String:
+	set(n):
+		$Name.text = n
+var skillDesc:String:
+	set(d):
+		$SkillPanel/Text.text = d
+func _ready() -> void:
+	var tw := get_tree().create_tween()
+	#var pos := position
+	#position = Vector3(0,0,0)
+	tw.set_trans(Tween.TRANS_QUAD)
+	tw.set_ease(Tween.EASE_OUT)
+	#tw.tween_property(self, "position", pos, 0.2)
+func _on_area_3d_mouse_entered() -> void:
+	$Back.modulate = Color(Color.GRAY, 1)
+	$SkillPanel.visible = true
+func _on_area_3d_mouse_exited() -> void:
+	$Back.modulate = Color.WHITE
+	$SkillPanel.visible = false
 signal mouseDown
 signal leftDown
 signal rightDown
@@ -39,7 +42,3 @@ func _on_area_3d_input_event(camera: Node, event: InputEvent, event_position: Ve
 			leftPrev = prev
 		if iemb.button_index == MOUSE_BUTTON_RIGHT:
 			rightPrev = prev
-func _on_area_3d_mouse_entered() -> void:
-	pass # Replace with function body.
-func _on_area_3d_mouse_exited() -> void:
-	pass # Replace with function body.

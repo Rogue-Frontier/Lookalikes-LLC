@@ -47,6 +47,7 @@ script = ExtResource("1_f60cu")
 [node name="Name" type="Label3D" parent="." unique_id=1507365472]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
 pixel_size = 0.0313
+render_priority = 1
 text = "Skill"
 font = ExtResource("1_q3qhw")
 autowrap_mode = 1

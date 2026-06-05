@@ -8,11 +8,39 @@
 [ext_resource type="Texture2D" uid="uid://8a68ekp0bq64" path="res://Dark.png" id="5_mqt84"]
 [ext_resource type="PackedScene" uid="uid://oc3hot5x033v" path="res://Pollock.tscn" id="6_et613"]
 
+[sub_resource type="SystemFont" id="SystemFont_et613"]
+font_names = PackedStringArray("Consolas")
+
+[sub_resource type="Theme" id="Theme_oiiyi"]
+default_font = SubResource("SystemFont_et613")
+default_font_size = 32
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_mqt84"]
 size = Vector3(500, 500, 1)
 
 [node name="Node3D" type="Node3D" unique_id=2119616681]
 script = ExtResource("1_ekmbu")
+
+[node name="Control" type="Control" parent="." unique_id=436297004]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Control" type="Button" parent="Control" unique_id=1390492336]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -109.5
+offset_right = 109.5
+offset_bottom = 41.0
+grow_horizontal = 2
+theme = SubResource("Theme_oiiyi")
+text = "Start Combat"
 
 [node name="Ground" type="Sprite3D" parent="." unique_id=1211484338]
 pixel_size = 1.0
@@ -39,7 +67,7 @@ render_priority = -99
 texture = ExtResource("5_mqt84")
 
 [node name="Camera" type="Camera3D" parent="." unique_id=1207038993 groups=["Camera"]]
-transform = Transform3D(1, 0, 0, 0, 0.93969256, 0.3420201, 0, -0.3420201, 0.93969256, 0, 12, 15)
+transform = Transform3D(1, 0, 0, 0, 0.93969256, 0.3420201, 0, -0.3420201, 0.93969256, 0, 12, 30)
 projection = 1
 current = true
 size = 36.0
@@ -58,10 +86,12 @@ transform = Transform3D(1, 0, 0, 0, 1.0000001, 0, 0, 0, 1.0000001, -30, 0, 1.907
 transform = Transform3D(1, 0, 0, 0, 1.0000001, 0, 0, 0, 1.0000001, -30, 0, -12)
 
 [node name="RightUnit" parent="." unique_id=1860683544 instance=ExtResource("6_et613")]
-transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0, 0)
+flip = true
 
 [node name="RightUnit2" parent="." unique_id=1735511470 instance=ExtResource("6_et613")]
-transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0, -12)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0, -12)
+flip = true
 
 [node name="Hidden" type="Node3D" parent="." unique_id=560255395]
 visible = false

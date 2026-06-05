@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://bnnn43j7u0fk2"]
+
+[ext_resource type="Texture2D" uid="uid://by7irgo1lhepl" path="res://SkillPanel.png" id="1_yry6m"]
+[ext_resource type="SystemFont" uid="uid://b4mil2oqkr8e8" path="res://MonospaceFont.tres" id="2_rs4k8"]
+
+[node name="SkillPanel" type="Node3D" unique_id=1945199462]
+
+[node name="Sprite3D" type="Sprite3D" parent="." unique_id=332244279]
+centered = false
+offset = Vector2(0, -56)
+pixel_size = 0.125
+texture_filter = 0
+render_priority = 20
+texture = ExtResource("1_yry6m")
+
+[node name="Text" type="Label3D" parent="." unique_id=206488112]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, 0)
+pixel_size = 0.0313
+texture_filter = 0
+render_priority = 25
+modulate = Color(0, 0, 0, 1)
+outline_modulate = Color(1, 1, 1, 1)
+text = "Underpainting"
+font = ExtResource("2_rs4k8")
+horizontal_alignment = 0
+vertical_alignment = 0
